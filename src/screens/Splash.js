@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {StyleSheet, SafeAreaView, Text, View, Animated} from 'react-native';
+import {Animated, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 
 import {Staatliches} from '../fonts';
 import {SplashConfig} from '../config';
@@ -18,6 +18,9 @@ const Splash = ({navigation}) => {
 
   useEffect(() => {
     animate();
+    setTimeout(() => {
+      navigation.push('Load');
+    }, SplashConfig.duration);
   }, []);
   return (
     <SafeAreaView style={styles.container}>
