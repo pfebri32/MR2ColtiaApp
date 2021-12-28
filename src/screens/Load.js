@@ -11,18 +11,19 @@ import {
 } from 'react-native';
 
 import Circle from '../components/geometris/Circle';
+import Color from '../colors';
 import {Staatliches} from '../fonts';
 import {LoadConfig} from '../config';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-const Load = ({navigation, addAccounts}) => {
+const Load = ({navigation, setAccounts}) => {
   const [loading, setLoading] = useState(true);
 
   // Animations.
   const anim = useRef(new Animated.Value(0)).current;
 
-  const handleAnimation = () => {
+  const animate = () => {
     Animated.loop(
       Animated.timing(anim, {
         useNativeDriver: true,
@@ -35,14 +36,14 @@ const Load = ({navigation, addAccounts}) => {
   };
 
   useEffect(() => {
-    handleAnimation();
+    animate();
   }, []);
 
   useEffect(() => {
     handleLoad();
     if (loading) return;
     setTimeout(() => {
-      console.log('IN');
+      navigation.push('ChooseAccount');
     }, LoadConfig.duration);
   }, [loading]);
 
@@ -51,13 +52,14 @@ const Load = ({navigation, addAccounts}) => {
     try {
       // Get accounts from storage.
       const res = await AsyncStorage.getItem('@accounts');
-      if (!res) return;
-
-      // Add accounts from storage to redux.
-      addAccounts(JSON.parse(res));
+      if (res) {
+        // Add accounts from storage to redux.
+        setAccounts(JSON.parse(res));
+      }
       setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
   return (
@@ -132,7 +134,7 @@ const Load = ({navigation, addAccounts}) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  addAccounts: value => dispatch({type: 'ADD_ACCOUNTS', payload: value}),
+  setAccounts: value => dispatch({type: 'SET_ACCOUNTS', payload: value}),
 });
 
 export default connect(null, mapDispatchToProps)(Load);
@@ -144,7 +146,7 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: Color.white,
     flex: 1,
     justifyContent: 'center',
     padding: 12,
@@ -158,7 +160,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   loading: {
-    color: '#555',
+    color: Color.dark_gray,
     fontFamily: Staatliches,
     fontSize: 24,
     marginBottom: 4,

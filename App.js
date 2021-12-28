@@ -4,6 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Redux from './src/redux';
 import {Load, Splash} from './src/screens';
+import {ChooseAccount} from './src/screens/accounts';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,6 +15,7 @@ const App = () => {
         <Stack.Navigator
           initialRouteName="Splash"
           screenOptions={{animation: 'none', headerShown: false}}>
+          <Stack.Screen name="ChooseAccount" component={ChooseAccount} />
           <Stack.Screen name="Load" component={Load} />
           <Stack.Screen name="Splash" component={Splash} />
         </Stack.Navigator>
