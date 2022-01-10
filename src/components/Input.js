@@ -2,9 +2,9 @@ import React from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 
 import Color from '../colors';
-import {OpenSansSemiBold} from '../fonts';
+import {OpenSans, OpenSansSemiBold} from '../fonts';
 
-const Input = ({label, style, ...rest}) => {
+const Input = ({error, label, style, ...rest}) => {
   return (
     <View style={style.container}>
       <Text style={styles.label}>{label}</Text>
@@ -14,6 +14,7 @@ const Input = ({label, style, ...rest}) => {
         style={styles.field}
         {...rest}
       />
+      {error && <Text style={styles.error}>{error}</Text>}
     </View>
   );
 };
@@ -21,6 +22,12 @@ const Input = ({label, style, ...rest}) => {
 export default Input;
 
 const styles = StyleSheet.create({
+  error: {
+    color: 'red',
+    fontFamily: OpenSans,
+    fontSize: 12,
+    marginTop: 2,
+  },
   field: {
     backgroundColor: Color.white,
     borderRadius: 4,
